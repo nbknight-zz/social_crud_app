@@ -11,17 +11,17 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :message %>
-    <%= form.text_field :message, id: :tweet_message %>
+    <%= form.text_field :message,  placeholder: "What's happening?", class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :tweet_user_id %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Tweet!", class: "btn btn-primary" %>
   </div>
 <% end %>
