@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
 
     has_many :tweets, dependent: :destroy
+    serialize :following, Array
 
     validates :username, presence: true, uniqueness: true
 
