@@ -1,6 +1,9 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
+  # before_action :authenticate_user!
+  include TweetsHelper
+
   # GET /tweets
   # GET /tweets.json
   def index
@@ -29,24 +32,9 @@ class TweetsController < ApplicationController
     respond_to do |format|
       if @tweet.save
 
-        message_arr = @tweet.message.split
+        @tweet = get_tagged(@tweet)
+        @tweet.save
 
-        message_arr.each_with_index do |word, index|
-          if word[0] == "#"
-            if Tag.pluck(:phrase).include?(word)
-              #save that Tag as a variable (to use in TweetTag creation)
-              tag = Tag.find_by(phrase: word)
-            else
-            #creates a new instance of a Tag
-              tag = Tag.create(phrase: word)
-            end
-            tweet_tag = TweetTag.create(tweet_id: @tweet.id, tag_id: tag.id)
-            message_arr[index] = "<a href='/tag_tweets?id=#{tag.id}'>#{word}</a>"
-          end          
-        end
-
-        @tweet.update(message: message_arr.join(" "))
-        
         format.html { redirect_to root_url, notice: 'Tweet was successfully created.' }
         format.json { render :show, status: :created, location: @tweet }
       else
@@ -88,6 +76,6 @@ class TweetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
-      params.require(:tweet).permit(:message, :user_id)
+      params.require(:tweet).permit(:message, :user_id, :link)
     end
 end
