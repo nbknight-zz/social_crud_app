@@ -1,6 +1,36 @@
 class EpicenterController < ApplicationController
 
+  before_action :set_user, only: [:followers, :following]
   # before_action :authenticate_user!
+
+  def following
+    @users = []
+
+    User.all.each do |user|
+      if @user.following.include?(user.id)
+        @users.push(user)
+      end
+    end
+  end
+
+  def followers
+    @users = []
+
+    User.all.each do |user|
+      if user.following.include?(@user.id)
+        @users.push(user)
+      end
+    end
+  end
+
+  def all_users
+    @users = User.all
+    # or:
+    # User.order(:username)
+    # User.order(:name)
+    # or whatever order you
+    # like to put them in
+  end
 
   def tag_tweets
     @tag = Tag.find(params[:id])
@@ -38,4 +68,11 @@ class EpicenterController < ApplicationController
 
     redirect_to show_user_path(id: params[:id])
   end
+
+  private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
 end
