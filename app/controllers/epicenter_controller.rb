@@ -1,5 +1,6 @@
 class EpicenterController < ApplicationController
   def feed
+    @tweet = Tweet.new
   	@following_tweets = []
 # If the current user is following the user_id that tweeted, or if the current_user's id is the tweet user ID, it will be displayed (pushed) into the array.
   	Tweet.all.each do |tweet|
