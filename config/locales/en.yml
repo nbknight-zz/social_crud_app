@@ -50,3 +50,11 @@ en:
             username:
               blank: " is missing. You need to pick one. And pick one now.... or I'll burn your house down. No really, you put your address in the database. Don't try to erase it. It's too late."
               taken: " must be unique. And someone beat you to it. Should've signed up sooner."
+datetime:
+  distance_in_words:
+    x_minutes:
+      one: "1m"
+      other: "%{count}m"
+    about_x_hours:
+      one: "1h"
+      other: "%{count}h"

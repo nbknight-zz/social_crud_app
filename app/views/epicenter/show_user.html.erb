@@ -3,10 +3,10 @@
 <h4><%= @user.name %></h4>
 <h4><%= @user.location %></h4>
 <h5><%= @user.bio %></h5>
-
+<p>
 	<%= link_to "Followers", followers_path(id: @user.id), class: "btn btn-default" %> | 
 	<%= link_to "Following", following_path(id: @user.id), class: "btn btn-default" %>
-
+</p>
 
 <p>
 	<% if current_user.following.include?(@user.id) %>
@@ -24,7 +24,8 @@
 			<%= image_tag tweet.user.avatar.url, size: 25 %>
 			<%= tweet.user.name %>
 			@<%= tweet.user.username %>
-			* <%= time_ago_in_words(tweet.created_at) %>
+			* <%= time_ago_in_words(tweet.created_at) if Time.now - tweet.created_at < 86400 %>
+			  <%= tweet.created_at.strftime('%b %e') if Time.now - tweet.created_at > 86400 %>
 		</p>
 		<p><%= tweet.message.html_safe %></p>
 	</div>
